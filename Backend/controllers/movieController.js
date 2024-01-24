@@ -4,8 +4,9 @@ const { client } = require("../redis");
 // Get movies from either Redis or DB
 exports.getMovies = async (req, res) => {
   try {
-    const redisData = JSON.parse(await client.get("movies"));
+    let redisData = await client.get("movies");
     if (redisData) {
+      redisData=JSON.parse(redisData)
       return res.status(200).json({ data: redisData, source: "from redis" });
     }
 
