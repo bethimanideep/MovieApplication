@@ -38,7 +38,7 @@ app.delete("/movies", moviesController.deleteMovie);
 
 app.listen("4500", async () => {
   try {
-    await client.connect().then(() => console.log("Connected to Redis"));
+    client.connect().then(() => console.log("Connected to Redis"));
 
     await mongoose
       .connect(process.env.MONGODBURL)
