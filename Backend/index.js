@@ -3,28 +3,16 @@ require("dotenv").config();
 const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
-const { createClient } = require("redis");
 
-const moviesController=require('./controllers/movieController')
+const moviesController = require("./controllers/movieController");
+const { client } = require("./redis");
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-//redis config
-const client = createClient({
-  password: process.env.REDISPASSWORD,
-  socket: {
-    host: process.env.REDISURL,
-    port: 16357,
-  },
-}).on("error", (err) => console.log("redis error"));
 
-// Middleware to attach the Redis client to the request object
-app.use((req, res, next) => {
-  req.client = client;
-  next();
-});
+
 
 app.get("/", (req, res) => {
   res.send("Movie Application");
@@ -38,7 +26,7 @@ app.delete("/movies", moviesController.deleteMovie);
 
 app.listen("4500", async () => {
   try {
-    client.connect().then(() => console.log("Connected to Redis"));
+    await client.connect().then(() => console.log("Connected to Redis"));
 
     await mongoose
       .connect(process.env.MONGODBURL)
@@ -47,3 +35,5 @@ app.listen("4500", async () => {
     console.log(error);
   }
 });
+
+

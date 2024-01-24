@@ -1,15 +1,16 @@
 const { moviesmodel } = require("../db");
+const { client } = require("../redis");
 
 // Get movies from either Redis or DB
 exports.getMovies = async (req, res) => {
   try {
-    const redisData = JSON.parse(await req.client.get("movies"));
+    const redisData = JSON.parse(await client.get("movies"));
     if (redisData) {
       return res.status(200).json({ data: redisData, source: "from redis" });
     }
 
     const data = await moviesmodel.find();
-    await req.client.set("movies", JSON.stringify(data));
+    await client.set("movies", JSON.stringify(data));
 
     res.status(200).json({ data, source: "from db" });
   } catch (error) {
@@ -35,7 +36,7 @@ exports.createMovie = async (req, res) => {
     await newMovie.save();
 
     const data = await moviesmodel.find();
-    await req.client.set("movies", JSON.stringify(data));
+    await client.set("movies", JSON.stringify(data));
 
     res.status(201).json({ data, source: "from db" });
   } catch (error) {
@@ -60,7 +61,7 @@ exports.updateMovie = async (req, res) => {
     }
 
     const data = await moviesmodel.find();
-    await req.client.set("movies", JSON.stringify(data));
+    await client.set("movies", JSON.stringify(data));
 
     res.status(201).json({ data, source: "from db" });
   } catch (error) {
@@ -85,7 +86,7 @@ exports.deleteMovie = async (req, res) => {
     }
 
     const data = await moviesmodel.find();
-    await req.client.set("movies", JSON.stringify(data));
+    await client.set("movies", JSON.stringify(data));
 
     res.status(201).json({ data, source: "from db" });
   } catch (error) {
