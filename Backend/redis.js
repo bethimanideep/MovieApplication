@@ -8,6 +8,7 @@ const client = createClient({
       host: process.env.REDISURL,
       port: 16357,
     },
+    legacyMode: true 
   }).on("error", (err) => console.log("redis error"));
 
 
