@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 app.get("/movies", moviesController.getMovies);
 app.post("/movies", moviesController.createMovie);
 app.put("/movies", moviesController.updateMovie);
-app.delete("/movies", moviesController.deleteMovie);
+app.delete("/movies/:_id", moviesController.deleteMovie);
 
 app.listen("4500", async () => {
   try {

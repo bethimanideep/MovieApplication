@@ -11,22 +11,10 @@ const movies = mongoose.Schema(
       type: String,
       required: true,
     },
-    rating: {
-      type: Number,
-      required: true,
-    },
-    genre: {
-      type: [String],
-      required: true,
-    },
     releaseYear: {
       type: Number,
       required: true,
-    },
-    director: {
-      type: String,
-      required: true,
-    },
+    }
   },
   { versionKey: false }
 );

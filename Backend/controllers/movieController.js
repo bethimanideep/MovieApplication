@@ -23,15 +23,12 @@ exports.getMovies = async (req, res) => {
 // Add a new movie
 exports.createMovie = async (req, res) => {
   try {
-    const { movieName, rating, genre, releaseYear, director, imageUrl } = req.body;
+    const { movieName, releaseYear, imageUrl } = req.body;
 
     const newMovie = new moviesmodel({
       movieName,
       imageUrl,
-      rating,
-      genre,
       releaseYear,
-      director,
     });
 
     await newMovie.save();
@@ -49,13 +46,13 @@ exports.createMovie = async (req, res) => {
 // Update a movie by _id
 exports.updateMovie = async (req, res) => {
   try {
-    const { _id, updatedData } = req.body;
+    console.log(req.body);
 
-    if (!_id && !updatedData) {
+    if ( !req.body) {
       return res.status(400).json({ error: "Missing values in the request body" });
     }
 
-    const updatedMovie = await moviesmodel.findByIdAndUpdate(_id, updatedData);
+    const updatedMovie = await moviesmodel.findByIdAndUpdate({_id:req.body._id}, req.body);
 
     if (!updatedMovie) {
       return res.status(404).json({ error: "Movie not found" });
@@ -74,7 +71,7 @@ exports.updateMovie = async (req, res) => {
 // Delete a movie by _id
 exports.deleteMovie = async (req, res) => {
   try {
-    const { _id } = req.body;
+    const {_id}=req.params
 
     if (!_id) {
       return res.status(400).json({ error: "Missing _id in the request body" });
