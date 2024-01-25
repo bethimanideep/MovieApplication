@@ -33,7 +33,7 @@ const MovieList = () => {
     useEffect(() => {
         const fetchMovies = async () => {
             try {
-                const response = await axios.get("http://localhost:4500/movies");
+                const response = await axios.get("https://movieapplication-d07u.onrender.com/movies");
                 console.log(response.data.data);
                 setMovies(response.data.data);
                 setLoading(false);
@@ -48,7 +48,7 @@ const MovieList = () => {
     //Adding New Movie
     const handleAddMovie = async (newMovie) => {
         try {
-            const response = await axios.post("http://localhost:4500/movies", newMovie);
+            const response = await axios.post("https://movieapplication-d07u.onrender.com/movies", newMovie);
             setMovies([...movies, response.data.data]);
             toast({
                 title: 'Movie Added.',
@@ -66,7 +66,7 @@ const MovieList = () => {
         console.log('Edited Movie:', editedMovie);
 
         try {
-            const response = await axios.put(`http://localhost:4500/movies/`, editedMovie);
+            const response = await axios.put(`https://movieapplication-d07u.onrender.com/movies/`, editedMovie);
             console.log('Edit Movie Response:', response.data);
 
             const updatedMovies = movies.map(movie =>
@@ -88,7 +88,7 @@ const MovieList = () => {
     //Deleting Movie
     const handleDeleteMovie = async (movieId) => {
         try {
-            await axios.delete(`http://localhost:4500/movies/${movieId}`);
+            await axios.delete(`https://movieapplication-d07u.onrender.com/movies/${movieId}`);
             const updatedMovies = movies.filter(movie => movie._id !== movieId);
             setMovies(updatedMovies);
             toast({
